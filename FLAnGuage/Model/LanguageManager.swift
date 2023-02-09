@@ -14,22 +14,25 @@ struct LanguageManager {
     }
 
     static var availableLanguages: [TISInputSource] {
-        return TISCreateInputSourceList(nil, false).takeRetainedValue() as! Array<TISInputSource>
+        return TISCreateInputSourceList(nil, false).takeRetainedValue() as? Array<TISInputSource> ?? []
     }
 
     static var allLanguages: [TISInputSource] {
-        return TISCreateInputSourceList(nil, true).takeRetainedValue() as! Array<TISInputSource>
+        return TISCreateInputSourceList(nil, true).takeRetainedValue() as? Array<TISInputSource> ?? []
     }
 
     static func id(for inputSource: TISInputSource) -> String {
         let inputSourceName = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID)
-        //return unsafeBitCast(inputSourceName, to: CFString.self) as String
         return String.unsafeBitCast(from: inputSourceName)
     }
 
     static func name(for inputSource: TISInputSource) -> String {
         let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
         return String.unsafeBitCast(from: inputSourceID)
+    }
+
+    static func set(_ iputSource: TISInputSource) {
+        TISSelectInputSource(iputSource)
     }
 }
 

@@ -6,7 +6,6 @@
 //
 
 import Cocoa
-import InputMethodKit
 
 class ViewController: NSViewController {
 
@@ -25,55 +24,7 @@ class ViewController: NSViewController {
         }
     }
 
-
 }
-
-//class LanguageMenuController: NSObject, NSMenuDelegate {
-//
-//    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
-//    let menu = NSMenu()
-//    let flagImage = NSImage(named: "FlagIcon")
-//    let currentLanguageIdentifier = NSLocale.preferredLanguages.first!
-//
-//    override init() {
-//        super.init()
-//        if let button = statusItem.button {
-//            button.image = flagImage
-//            button.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
-//        }
-//
-//        menu.delegate = self
-//        statusItem.menu = menu
-//        updateMenuItems()
-//    }
-//
-//    func updateMenuItems() {
-//        TISInputSource
-//        menu.removeAllItems()
-//        let availableLanguages = NSTextInputContext.allInputContexts.map { $0.selectedKeyboardInputSource?.localizedName }.compactMap { $0 }
-//        for language in availableLanguages {
-//            let menuItem = NSMenuItem(title: language, action: #selector(LanguageMenuController.menuItemSelected(sender:)), keyEquivalent: "")
-//            menuItem.target = self
-//            menu.addItem(menuItem)
-//        }
-//    }
-//
-//    @objc func statusBarButtonClicked(sender: NSStatusItem) {
-//        updateMenuItems()
-//        statusItem.popUpMenu(menu)
-//    }
-//
-//    @objc func menuItemSelected(sender: NSMenuItem) {
-//        NSTextInputContext.changeCurrentInputMethod(to: sender.title)
-//    }
-//
-//    func menuWillOpen(_ menu: NSMenu) {
-//        updateMenuItems()
-//    }
-//}
-
-//import Cocoa
-//import InputMethodKit
 
 class LanguageMenuController: NSObject, NSMenuDelegate {
 
@@ -124,7 +75,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         if let selectedInputSource = LanguageManager.availableLanguages.first(where: {
             LanguageManager.name(for: $0) == sender.title
         }) {
-            TISSelectInputSource(selectedInputSource)
+            LanguageManager.set(selectedInputSource)
             if let button = statusItem.button {
                 button.title = LanguageManager.name(for: selectedInputSource)
             }
