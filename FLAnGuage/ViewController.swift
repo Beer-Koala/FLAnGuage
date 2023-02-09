@@ -88,10 +88,9 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         if let button = statusItem.button {
             //button.image = flagImage
 
-            let currentKeyboard = TISCopyCurrentKeyboardInputSource().takeRetainedValue()
-            let inputSourceName = TISGetInputSourceProperty(currentKeyboard, kTISPropertyLocalizedName)
+            let currentInputSource = LanguageManager.currentLanguage
 
-            button.title = unsafeBitCast(inputSourceName, to: CFString.self) as String
+            button.title = LanguageManager.name(for: currentInputSource)
             button.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
         }
 
@@ -102,13 +101,15 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
     func updateMenuItems() {
         menu.removeAllItems()
-        let availableLanguages = TISCreateInputSourceList(nil, false).takeRetainedValue() as Array
+        let availableLanguages = LanguageManager.availableLanguages
         for inputSource in availableLanguages {
-            let inputSourceRef = inputSource as! TISInputSource
-            let inputSourceName = TISGetInputSourceProperty(inputSourceRef, kTISPropertyLocalizedName)
-            let inputSourceNameString = unsafeBitCast(inputSourceName, to: CFString.self) as String
+            let inputSourceName = LanguageManager.name(for: inputSource)
 
-            let menuItem = NSMenuItem(title: inputSourceNameString, action: #selector(LanguageMenuController.menuItemSelected(sender:)), keyEquivalent: "")
+            let menuItem = NSMenuItem(
+                title: inputSourceName,
+                action: #selector(LanguageMenuController.menuItemSelected(sender:)),
+                keyEquivalent: ""
+            )
             menuItem.target = self
             menu.addItem(menuItem)
         }
@@ -116,26 +117,16 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
     @objc func statusBarButtonClicked(sender: NSStatusItem) {
         updateMenuItems()
-        //statusItem.popUpMenu(menu)
         statusItem.button?.performClick(nil)
     }
 
     @objc func menuItemSelected(sender: NSMenuItem) {
-        let availableLanguages = TISCreateInputSourceList(nil, false).takeRetainedValue() as Array
-        for inputSource in availableLanguages {
-            let inputSourceRef = inputSource as! TISInputSource
-
-//            let inputSourceID = TISGetInputSourceProperty(inputSourceRef, kTISPropertyInputSourceID)
-//            let inputSourceIDString = unsafeBitCast(inputSourceID, to: CFString.self) as String
-            let inputSourceName = TISGetInputSourceProperty(inputSourceRef, kTISPropertyLocalizedName)
-            let inputSourceNameString = unsafeBitCast(inputSourceName, to: CFString.self) as String
-
-            if inputSourceNameString == sender.title {
-                TISSelectInputSource(inputSourceRef)
-                if let button = statusItem.button {
-                    button.title = inputSourceNameString
-                }
-                break
+        if let selectedInputSource = LanguageManager.availableLanguages.first(where: {
+            LanguageManager.name(for: $0) == sender.title
+        }) {
+            TISSelectInputSource(selectedInputSource)
+            if let button = statusItem.button {
+                button.title = LanguageManager.name(for: selectedInputSource)
             }
         }
     }
