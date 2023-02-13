@@ -60,7 +60,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         menu.removeAllItems()
         let availableLanguages = LanguageManager.availableLanguages
         for inputSource in availableLanguages {
-            let inputSourceName = LanguageManager.id(for: inputSource)//name
+            let inputSourceName = LanguageManager.name(for: inputSource)
 
             let menuItem = NSMenuItem(
                 title: inputSourceName,
