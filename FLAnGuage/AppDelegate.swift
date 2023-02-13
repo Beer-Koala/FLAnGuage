@@ -12,6 +12,12 @@ import AppKit
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    var languageMenu: LanguageMenuController?
+
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        self.languageMenu = LanguageMenuController()
+    }
+
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }

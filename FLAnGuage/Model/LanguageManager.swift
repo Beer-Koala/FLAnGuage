@@ -34,6 +34,8 @@ struct LanguageManager {
     static func set(_ iputSource: TISInputSource) {
         TISSelectInputSource(iputSource)
     }
+
+    static let changeLanguageNotificationName: NSNotification.Name = NSNotification.Name(rawValue: kTISNotifySelectedKeyboardInputSourceChanged as String)
 }
 
 extension String {
