@@ -9,30 +9,26 @@ import InputMethodKit
 
 struct LanguageManager {
 
-    static var currentLanguage: TISInputSource {
-        return TISCopyCurrentKeyboardInputSource().takeRetainedValue()
+    static var currentLanguage: InputSource {
+        return TISCopyCurrentKeyboardInputSource().takeRetainedValue().inputSource()
     }
 
-    static var availableLanguages: [TISInputSource] {
-        return TISCreateInputSourceList(nil, false).takeRetainedValue() as? Array<TISInputSource> ?? []
+    static var availableLanguages: [InputSource] {
+        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? Array<TISInputSource> ?? [])
+            .map {
+                $0.inputSource()
+            }
     }
 
-    static var allLanguages: [TISInputSource] {
-        return TISCreateInputSourceList(nil, true).takeRetainedValue() as? Array<TISInputSource> ?? []
+    static var allLanguages: [InputSource] {
+        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? Array<TISInputSource> ?? [])
+            .map {
+                $0.inputSource()
+            }
     }
 
-    static func id(for inputSource: TISInputSource) -> String {
-        let inputSourceName = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID)
-        return String.unsafeBitCast(from: inputSourceName)
-    }
-
-    static func name(for inputSource: TISInputSource) -> String {
-        let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
-        return String.unsafeBitCast(from: inputSourceID)
-    }
-
-    static func set(_ iputSource: TISInputSource) {
-        TISSelectInputSource(iputSource)
+    static func set(_ inputSource: InputSource) {
+        TISSelectInputSource(inputSource.inputSource)
     }
 
     static let changeLanguageNotificationName: NSNotification.Name = NSNotification.Name(rawValue: kTISNotifySelectedKeyboardInputSourceChanged as String)
@@ -45,5 +41,38 @@ extension String {
         } else {
             return String.empty
         }
+    }
+
+    static func unsafeBitCastArray(from inputSourceProperty: UnsafeMutableRawPointer?) -> [String] {
+        if let inputSourceProperty = inputSourceProperty {
+            return Swift.unsafeBitCast(inputSourceProperty, to: CFArray.self) as? [String] ?? []
+        } else {
+            return []
+        }
+    }
+}
+
+
+struct InputSource {
+    var inputSource: TISInputSource
+
+    var id: String {
+        let inputSourceName = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID)
+        return String.unsafeBitCast(from: inputSourceName)
+    }
+    var name: String {
+        let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
+        return String.unsafeBitCast(from: inputSourceID)
+    }
+    var language: String {
+        let inputSourceLanguage = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceLanguages)
+        return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
+    }
+}
+
+extension TISInputSource {
+
+    func inputSource() -> InputSource {
+        return InputSource(inputSource: self)
     }
 }

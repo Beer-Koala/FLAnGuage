@@ -21,7 +21,8 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         self.updateCurrentInputSource()
         menu.delegate = self
         statusItem.menu = menu
-        updateMenuItems()
+        statusItem.button?.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
+        self.updateMenuItemTitle()
 
         NotificationCenter.default.addObserver(
             self,
@@ -51,16 +52,15 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
             let currentInputSource = LanguageManager.currentLanguage
 
-            button.title = LanguageManager.name(for: currentInputSource)
-            button.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
+            button.title = "\(currentInputSource.id) - \(currentInputSource.name) - \(currentInputSource.language)"
         }
     }
 
-    func updateMenuItems() {
+    func updateMenuItemTitle() {
         menu.removeAllItems()
         let availableLanguages = LanguageManager.availableLanguages
         for inputSource in availableLanguages {
-            let inputSourceName = LanguageManager.name(for: inputSource)
+            let inputSourceName = "\(inputSource.id) - \(inputSource.name) - \(inputSource.language)"
 
             let menuItem = NSMenuItem(
                 title: inputSourceName,
@@ -68,27 +68,21 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
                 keyEquivalent: ""
             )
             menuItem.target = self
+            menuItem.representedObject = inputSource
             menu.addItem(menuItem)
         }
     }
 
     @objc func statusBarButtonClicked(sender: NSStatusItem) {
-        updateMenuItems()
-        statusItem.button?.performClick(nil)
+        self.updateMenuItemTitle()
+        self.statusItem.button?.performClick(nil)
     }
 
     @objc func menuItemSelected(sender: NSMenuItem) {
-        if let selectedInputSource = LanguageManager.availableLanguages.first(where: {
-            LanguageManager.name(for: $0) == sender.title
-        }) {
-            LanguageManager.set(selectedInputSource)
-            if let button = statusItem.button {
-                button.title = LanguageManager.name(for: selectedInputSource)
-            }
-        }
-    }
 
-    func menuWillOpen(_ menu: NSMenu) {
-        updateMenuItems()
+        if let selectedInputSource = sender.representedObject as? InputSource {
+            LanguageManager.set(selectedInputSource)
+            self.updateCurrentInputSource()
+        }
     }
 }
