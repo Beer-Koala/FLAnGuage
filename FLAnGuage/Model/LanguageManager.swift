@@ -64,9 +64,26 @@ struct InputSource {
         let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
         return String.unsafeBitCast(from: inputSourceID)
     }
+
     var language: String {
         let inputSourceLanguage = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceLanguages)
         return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
+    }
+
+    var image: NSImage? {
+        switch self.language {
+        case "en": return NSImage(named: "usa")
+        case "uk": return NSImage(named: "ukraine")
+        default: return nil
+        }
+    }
+
+    var shortName: String {
+        switch self.language {
+        case "en": return "🇺🇸"
+        case "uk": return "🇺🇦"
+        default: return "\(self.id) - \(self.name) - \(self.language)"
+        }
     }
 }
 

@@ -6,21 +6,20 @@
 //
 
 import Cocoa
+import AppKit
 
 class LanguageMenuController: NSObject, NSMenuDelegate {
 
-    let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let menu = NSMenu()
-    let flagImageUSA = NSImage(named: "usa")
-    let flagImageUkraine = NSImage(named: "ukraine")
     let currentLanguageIdentifier = NSLocale.preferredLanguages.first!
 
     override init() {
         super.init()
 
         self.updateCurrentInputSource()
-        menu.delegate = self
-        statusItem.menu = menu
+        self.menu.delegate = self
+        statusItem.menu = self.menu
         statusItem.button?.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
         self.updateMenuItemTitle()
 
@@ -48,19 +47,18 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
     func updateCurrentInputSource() {
         if let button = statusItem.button {
-            //button.image = flagImage
-
             let currentInputSource = LanguageManager.currentLanguage
-
-            button.title = "\(currentInputSource.id) - \(currentInputSource.name) - \(currentInputSource.language)"
+            //            button.image = currentInputSource.image
+            //            button.imageScaling = .scaleProportionallyUpOrDown
+            button.title = currentInputSource.shortName
         }
     }
 
     func updateMenuItemTitle() {
-        menu.removeAllItems()
+        self.menu.removeAllItems()
         let availableLanguages = LanguageManager.availableLanguages
         for inputSource in availableLanguages {
-            let inputSourceName = "\(inputSource.id) - \(inputSource.name) - \(inputSource.language)"
+            let inputSourceName = inputSource.name
 
             let menuItem = NSMenuItem(
                 title: inputSourceName,
@@ -69,8 +67,29 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
             )
             menuItem.target = self
             menuItem.representedObject = inputSource
-            menu.addItem(menuItem)
+            self.menu.addItem(menuItem)
         }
+
+        self.addPreferences()
+        self.addQuit()
+    }
+
+    func addPreferences() {
+        self.menu.addItem(NSMenuItem.separator())
+        let quitMenuItem = NSMenuItem(title: "Open Keyborad Settings...",
+                                      action: #selector(LanguageMenuController.keyboardSettings(sender:)),
+                                      keyEquivalent: "")
+        quitMenuItem.target = self
+        self.menu.addItem(quitMenuItem)
+    }
+
+    func addQuit() {
+        self.menu.addItem(NSMenuItem.separator())
+        let quitMenuItem = NSMenuItem(title: "Quit",
+                                      action: #selector(LanguageMenuController.quitApp(sender:)),
+                                      keyEquivalent: "")
+        quitMenuItem.target = self
+        self.menu.addItem(quitMenuItem)
     }
 
     @objc func statusBarButtonClicked(sender: NSStatusItem) {
@@ -85,4 +104,15 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
             self.updateCurrentInputSource()
         }
     }
+
+    @objc func quitApp(sender: NSStatusItem) {
+        NSApplication.shared.terminate(sender)
+    }
+
+    @objc func keyboardSettings(sender: NSStatusItem) {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.preference.keyboard") {
+            NSWorkspace.shared.open(url)
+        }
+    }
+
 }
