@@ -18,6 +18,9 @@ struct LanguageManager {
             .map {
                 $0.inputSource()
             }
+            .filter {
+                $0.id != "com.apple.PressAndHold"
+            }
     }
 
     static var allLanguages: [InputSource] {
@@ -60,6 +63,7 @@ struct InputSource {
         let inputSourceName = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceID)
         return String.unsafeBitCast(from: inputSourceName)
     }
+
     var name: String {
         let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
         return String.unsafeBitCast(from: inputSourceID)
@@ -78,13 +82,56 @@ struct InputSource {
         }
     }
 
-    var shortName: String {
+    var flagName: String? {
         switch self.language {
-        case "en": return "🇺🇸"
         case "uk": return "🇺🇦"
-        default: return "\(self.id) - \(self.name) - \(self.language)"
+        case "fr": return "🇫🇷"
+        case "en":
+            if self.id == "com.apple.CharacterPaletteIM" {
+                return "😜"
+            }
+            return "🇬🇧"
+        case "ar": return "🇦🇪"
+        case "cs": return "🇨🇿"
+        case "da": return "🇩🇰"
+        case "de": return "🇩🇪"
+        case "el": return "🇬🇷"
+        case "es": return "🇪🇸"
+        case "fi": return "🇫🇮"
+        case "he": return "🇮🇱"
+        case "hi", "bn", "ta": return "🇮🇳"
+        case "it": return "🇮🇹"
+        case "jp", "ja": return "🇯🇵"
+        case "ko": return "🇰🇷"
+        case "nl": return "🇧🇪"
+        case "hu": return "🇭🇺"
+        case "id": return "🇮🇩"
+        case "no": return "🇳🇴"
+        case "pl": return "🇵🇱"
+        case "pt": return "🇵🇹"
+        case "ro": return "🇷🇴"
+        case "ru": return "🇷🇺"
+        case "sk": return "🇸🇰"
+        case "sv": return "🇸🇪"
+        case "th": return "🇹🇭"
+        case "tr": return "🇹🇷"
+        case "zh": return "🇨🇳"
+        default: return nil
         }
     }
+
+    var statusBarName: String {
+        if let name = self.flagName {
+            return name
+        } else {
+            return "\(self.language)"
+        }
+    }
+
+    var menuName: String {
+        return  "\(self.flagName ?? "") \(self.name)"//
+    }
+
 }
 
 extension TISInputSource {

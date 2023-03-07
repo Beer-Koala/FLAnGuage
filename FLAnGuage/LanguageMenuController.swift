@@ -50,7 +50,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
             let currentInputSource = LanguageManager.currentLanguage
             //            button.image = currentInputSource.image
             //            button.imageScaling = .scaleProportionallyUpOrDown
-            button.title = currentInputSource.shortName
+            button.title = currentInputSource.statusBarName
         }
     }
 
@@ -58,7 +58,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         self.menu.removeAllItems()
         let availableLanguages = LanguageManager.availableLanguages
         for inputSource in availableLanguages {
-            let inputSourceName = inputSource.name
+            let inputSourceName = inputSource.menuName
 
             let menuItem = NSMenuItem(
                 title: inputSourceName,
