@@ -7,18 +7,15 @@
 
 import Cocoa
 
+import AppKit
+
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    
+    var languageMenu: LanguageMenuController?
 
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
-    }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        self.languageMenu = LanguageMenuController()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
