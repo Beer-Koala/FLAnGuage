@@ -9,6 +9,8 @@ import Cocoa
 
 import AppKit
 
+import ServiceManagement
+
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -16,6 +18,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         self.languageMenu = LanguageMenuController()
+
+        do {
+            try SMAppService.mainApp.register()
+        } catch {
+            print("Error while registering the app to LoginItems: \(error)")
+        }
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
