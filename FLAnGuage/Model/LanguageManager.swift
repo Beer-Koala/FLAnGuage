@@ -9,12 +9,32 @@ import InputMethodKit
 
 struct LanguageManager {
 
-    static var currentLanguage: InputSource {
+    static let shared = LanguageManager()
+
+    static let changeLanguageNotificationName = NSNotification.Name(rawValue: "SelectedKeyboardInputSourceChanged")
+
+    private init() {
+
+        let changeLanguageCallback: CFNotificationCallback = {(_, _, _, _, _) in
+            NotificationCenter.default.post(name: LanguageManager.changeLanguageNotificationName, object: nil)
+        }
+
+        CFNotificationCenterAddObserver(
+            CFNotificationCenterGetDistributedCenter(),
+            nil,
+            changeLanguageCallback,
+            kTISNotifySelectedKeyboardInputSourceChanged,
+            nil,
+            .deliverImmediately
+        )
+    }
+
+    var currentLanguage: InputSource {
         return TISCopyCurrentKeyboardInputSource().takeRetainedValue().inputSource()
     }
 
-    static var availableLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? Array<TISInputSource> ?? [])
+    var availableLanguages: [InputSource] {
+        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
@@ -23,18 +43,16 @@ struct LanguageManager {
             }
     }
 
-    static var allLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? Array<TISInputSource> ?? [])
+    var allLanguages: [InputSource] {
+        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
     }
 
-    static func set(_ inputSource: InputSource) {
+    func set(_ inputSource: InputSource) {
         TISSelectInputSource(inputSource.inputSource)
     }
-
-    static let changeLanguageNotificationName: NSNotification.Name = NSNotification.Name(rawValue: kTISNotifySelectedKeyboardInputSourceChanged as String)
 }
 
 extension String {
@@ -55,7 +73,6 @@ extension String {
     }
 }
 
-
 struct InputSource {
     var inputSource: TISInputSource
 
@@ -74,13 +91,13 @@ struct InputSource {
         return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
     }
 
-    var image: NSImage? {
-        switch self.language {
-        case "en": return NSImage(named: "usa")
-        case "uk": return NSImage(named: "ukraine")
-        default: return nil
-        }
-    }
+//    var image: NSImage? {
+//        switch self.language {
+//        case "en": return NSImage(named: "usa")
+//        case "uk": return NSImage(named: "ukraine")
+//        default: return nil
+//        }
+//    }
 
     var flagName: String? {
         switch self.language {

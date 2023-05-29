@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E06550D32DCFF09EEBFB8CB8 /* Pods_FLAnGuage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */; };
 		FD6F2B482999BE7300CA1003 /* LanguageMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F2B472999BE7300CA1003 /* LanguageMenuController.swift */; };
 		FDE4BA9929946CED0068C216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9829946CED0068C216 /* AppDelegate.swift */; };
 		FDE4BA9B29946CED0068C216 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9A29946CED0068C216 /* ViewController.swift */; };
@@ -19,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLAnGuage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FB9844459BE08CEB285CE6D /* Pods-FLAnGuage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.release.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.release.xcconfig"; sourceTree = "<group>"; };
+		658F2E0E54FF95D08DD53928 /* Pods-FLAnGuage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.debug.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.debug.xcconfig"; sourceTree = "<group>"; };
 		FD6F2B472999BE7300CA1003 /* LanguageMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageMenuController.swift; sourceTree = "<group>"; };
 		FDE4BA9529946CED0068C216 /* FLAnGuage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnGuage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE4BA9829946CED0068C216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,17 +41,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E06550D32DCFF09EEBFB8CB8 /* Pods_FLAnGuage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		138AF9561E66D3978A273335 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				658F2E0E54FF95D08DD53928 /* Pods-FLAnGuage.debug.xcconfig */,
+				3FB9844459BE08CEB285CE6D /* Pods-FLAnGuage.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		2D90B5A79706F09D79703DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		FDE4BA8C29946CED0068C216 = {
 			isa = PBXGroup;
 			children = (
 				FDE4BA9729946CED0068C216 /* FLAnGuage */,
 				FDE4BA9629946CED0068C216 /* Products */,
+				138AF9561E66D3978A273335 /* Pods */,
+				2D90B5A79706F09D79703DC1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -91,9 +115,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FDE4BAA729946CEE0068C216 /* Build configuration list for PBXNativeTarget "FLAnGuage" */;
 			buildPhases = (
+				084CC0585CD51DA24ECB32B1 /* [CP] Check Pods Manifest.lock */,
 				FDE4BA9129946CED0068C216 /* Sources */,
 				FDE4BA9229946CED0068C216 /* Frameworks */,
 				FDE4BA9329946CED0068C216 /* Resources */,
+				FDA7D3822A22E09200B35FE9 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -112,7 +138,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1420;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					FDE4BA9429946CED0068C216 = {
 						CreatedOnToolsVersion = 14.2;
@@ -148,6 +174,50 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		084CC0585CD51DA24ECB32B1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FLAnGuage-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FDA7D3822A22E09200B35FE9 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FDE4BA9129946CED0068C216 /* Sources */ = {
@@ -211,6 +281,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -271,6 +342,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -293,6 +365,7 @@
 		};
 		FDE4BAA829946CEE0068C216 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 658F2E0E54FF95D08DD53928 /* Pods-FLAnGuage.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -300,6 +373,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B6N47R8A8L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -321,6 +395,7 @@
 		};
 		FDE4BAA929946CEE0068C216 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FB9844459BE08CEB285CE6D /* Pods-FLAnGuage.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -328,6 +403,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B6N47R8A8L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
