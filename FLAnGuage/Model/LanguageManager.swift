@@ -14,7 +14,7 @@ struct LanguageManager {
     }
 
     static var availableLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? Array<TISInputSource> ?? [])
+        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
@@ -24,7 +24,7 @@ struct LanguageManager {
     }
 
     static var allLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? Array<TISInputSource> ?? [])
+        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
@@ -54,7 +54,6 @@ extension String {
         }
     }
 }
-
 
 struct InputSource {
     var inputSource: TISInputSource
