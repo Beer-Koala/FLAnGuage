@@ -73,13 +73,13 @@ struct InputSource {
         return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
     }
 
-    var image: NSImage? {
-        switch self.language {
-        case "en": return NSImage(named: "usa")
-        case "uk": return NSImage(named: "ukraine")
-        default: return nil
-        }
-    }
+//    var image: NSImage? {
+//        switch self.language {
+//        case "en": return NSImage(named: "usa")
+//        case "uk": return NSImage(named: "ukraine")
+//        default: return nil
+//        }
+//    }
 
     var flagName: String? {
         switch self.language {
