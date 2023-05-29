@@ -7,7 +7,6 @@
 
 import Cocoa
 import AppKit
-import InputMethodKit
 
 class LanguageMenuController: NSObject, NSMenuDelegate {
 
@@ -24,29 +23,25 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         statusItem.button?.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
         self.updateMenuItemTitle()
 
-        // Void pointer to `self`:
-        let observer = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
-
-        let changeLanguageCallback: CFNotificationCallback = { (_, observer, _, _, _) in
-            if let observer = observer {
-                // Extract pointer to `self` from void pointer:
-                let mySelf = Unmanaged<LanguageMenuController>.fromOpaque(observer).takeUnretainedValue()
-                // Call instance method:
-                mySelf.inputSourceChanged()
-            }
-        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(inputSourceChanged),
+            name: LanguageManager.changeLanguageNotificationName,
+            object: nil)
 
         CFNotificationCenterAddObserver(
             CFNotificationCenterGetDistributedCenter(),
-            observer,
-            changeLanguageCallback,
-            kTISNotifySelectedKeyboardInputSourceChanged,
+            nil,
+            { (_, _, _, _, _) in
+                NotificationCenter.default.post(name: LanguageManager.changeLanguageNotificationName, object: nil)
+            },
+            LanguageManager.changeLanguageNotificationName as CFString,
             nil,
             .deliverImmediately
         )
     }
 
-    func inputSourceChanged() {
+    @objc func inputSourceChanged() {
         self.updateCurrentInputSource()
     }
 
