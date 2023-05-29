@@ -9,11 +9,31 @@ import InputMethodKit
 
 struct LanguageManager {
 
-    static var currentLanguage: InputSource {
+    static let shared = LanguageManager()
+
+    static let changeLanguageNotificationName = NSNotification.Name(rawValue: "SelectedKeyboardInputSourceChanged")
+
+    private init() {
+
+        let changeLanguageCallback: CFNotificationCallback = {(_, _, _, _, _) in
+            NotificationCenter.default.post(name: LanguageManager.changeLanguageNotificationName, object: nil)
+        }
+
+        CFNotificationCenterAddObserver(
+            CFNotificationCenterGetDistributedCenter(),
+            nil,
+            changeLanguageCallback,
+            kTISNotifySelectedKeyboardInputSourceChanged,
+            nil,
+            .deliverImmediately
+        )
+    }
+
+    var currentLanguage: InputSource {
         return TISCopyCurrentKeyboardInputSource().takeRetainedValue().inputSource()
     }
 
-    static var availableLanguages: [InputSource] {
+    var availableLanguages: [InputSource] {
         return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
@@ -23,18 +43,16 @@ struct LanguageManager {
             }
     }
 
-    static var allLanguages: [InputSource] {
+    var allLanguages: [InputSource] {
         return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
     }
 
-    static func set(_ inputSource: InputSource) {
+    func set(_ inputSource: InputSource) {
         TISSelectInputSource(inputSource.inputSource)
     }
-
-    static let changeLanguageNotificationName: NSNotification.Name = NSNotification.Name(rawValue: kTISNotifySelectedKeyboardInputSourceChanged as String)
 }
 
 extension String {

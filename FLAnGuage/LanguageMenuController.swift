@@ -28,17 +28,6 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
             selector: #selector(inputSourceChanged),
             name: LanguageManager.changeLanguageNotificationName,
             object: nil)
-
-        CFNotificationCenterAddObserver(
-            CFNotificationCenterGetDistributedCenter(),
-            nil,
-            { (_, _, _, _, _) in
-                NotificationCenter.default.post(name: LanguageManager.changeLanguageNotificationName, object: nil)
-            },
-            LanguageManager.changeLanguageNotificationName as CFString,
-            nil,
-            .deliverImmediately
-        )
     }
 
     @objc func inputSourceChanged() {
@@ -47,7 +36,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
     func updateCurrentInputSource() {
         if let button = statusItem.button {
-            let currentInputSource = LanguageManager.currentLanguage
+            let currentInputSource = LanguageManager.shared.currentLanguage
             //            button.image = currentInputSource.image
             //            button.imageScaling = .scaleProportionallyUpOrDown
             button.title = currentInputSource.statusBarName
@@ -56,7 +45,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
     func updateMenuItemTitle() {
         self.menu.removeAllItems()
-        let availableLanguages = LanguageManager.availableLanguages
+        let availableLanguages = LanguageManager.shared.availableLanguages
         for inputSource in availableLanguages {
             let inputSourceName = inputSource.menuName
 
@@ -100,8 +89,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
     @objc func menuItemSelected(sender: NSMenuItem) {
 
         if let selectedInputSource = sender.representedObject as? InputSource {
-            LanguageManager.set(selectedInputSource)
-            self.updateCurrentInputSource()
+            LanguageManager.shared.set(selectedInputSource)
         }
     }
 
