@@ -8,7 +8,7 @@
 import Cocoa
 import AppKit
 
-class LanguageMenuController: NSObject, NSMenuDelegate {
+class InputSourceMenu: NSObject, NSMenuDelegate {
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let menu = NSMenu()
@@ -20,7 +20,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
         self.updateCurrentInputSource()
         self.menu.delegate = self
         statusItem.menu = self.menu
-        statusItem.button?.action = #selector(LanguageMenuController.statusBarButtonClicked(sender:))
+        statusItem.button?.action = #selector(InputSourceMenu.statusBarButtonClicked(sender:))
         self.updateMenuItemTitle()
 
         NotificationCenter.default.addObserver(
@@ -51,7 +51,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
 
             let menuItem = NSMenuItem(
                 title: inputSourceName,
-                action: #selector(LanguageMenuController.menuItemSelected(sender:)),
+                action: #selector(InputSourceMenu.menuItemSelected(sender:)),
                 keyEquivalent: ""
             )
             menuItem.target = self
@@ -66,7 +66,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
     func addPreferences() {
         self.menu.addItem(NSMenuItem.separator())
         let quitMenuItem = NSMenuItem(title: "Open Keyborad Settings...",
-                                      action: #selector(LanguageMenuController.keyboardSettings(sender:)),
+                                      action: #selector(InputSourceMenu.keyboardSettings(sender:)),
                                       keyEquivalent: "")
         quitMenuItem.target = self
         self.menu.addItem(quitMenuItem)
@@ -75,7 +75,7 @@ class LanguageMenuController: NSObject, NSMenuDelegate {
     func addQuit() {
         self.menu.addItem(NSMenuItem.separator())
         let quitMenuItem = NSMenuItem(title: "Quit",
-                                      action: #selector(LanguageMenuController.quitApp(sender:)),
+                                      action: #selector(InputSourceMenu.quitApp(sender:)),
                                       keyEquivalent: "")
         quitMenuItem.target = self
         self.menu.addItem(quitMenuItem)
