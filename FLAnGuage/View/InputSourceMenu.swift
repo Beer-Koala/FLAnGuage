@@ -14,6 +14,11 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
     let menu = NSMenu()
     let currentLanguageIdentifier = NSLocale.preferredLanguages.first!
 
+    private lazy var appSettingsWindowController: NSWindowController? = {
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        return storyboard.instantiateController(withIdentifier: "SettingsWindowController") as? NSWindowController
+    }()
+
     override init() {
         super.init()
 
@@ -65,11 +70,18 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
 
     func addPreferences() {
         self.menu.addItem(NSMenuItem.separator())
-        let quitMenuItem = NSMenuItem(title: "Open Keyborad Settings...",
+        let appSettingsMenuItem = NSMenuItem(title: "Open App Settings...",
+                                      action: #selector(InputSourceMenu.appSettings(sender:)),
+                                      keyEquivalent: "")
+        appSettingsMenuItem.target = self
+        self.menu.addItem(appSettingsMenuItem)
+
+        self.menu.addItem(NSMenuItem.separator())
+        let keyboardSettingsMenuItem = NSMenuItem(title: "Open Keyborad Settings...",
                                       action: #selector(InputSourceMenu.keyboardSettings(sender:)),
                                       keyEquivalent: "")
-        quitMenuItem.target = self
-        self.menu.addItem(quitMenuItem)
+        keyboardSettingsMenuItem.target = self
+        self.menu.addItem(keyboardSettingsMenuItem)
     }
 
     func addQuit() {
@@ -101,6 +113,11 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
         if let url = URL(string: "x-apple.systempreferences:com.apple.preference.keyboard") {
             NSWorkspace.shared.open(url)
         }
+    }
+
+    @objc func appSettings(sender: NSStatusItem) {
+        self.appSettingsWindowController?.showWindow(self)
+        NSApp.activate(ignoringOtherApps: true)
     }
 
 }
