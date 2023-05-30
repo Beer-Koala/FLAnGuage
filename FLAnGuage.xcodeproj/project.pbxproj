@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E06550D32DCFF09EEBFB8CB8 /* Pods_FLAnGuage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */; };
 		FD6F2B482999BE7300CA1003 /* LanguageMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F2B472999BE7300CA1003 /* LanguageMenuController.swift */; };
+		FD9B66132A25D4F000D334F7 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9B66122A25D4F000D334F7 /* InputSource.swift */; };
 		FDE4BA9929946CED0068C216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9829946CED0068C216 /* AppDelegate.swift */; };
 		FDE4BA9B29946CED0068C216 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9A29946CED0068C216 /* ViewController.swift */; };
 		FDE4BA9E29946CED0068C216 /* FLAnGuage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9C29946CED0068C216 /* FLAnGuage.xcdatamodeld */; };
@@ -24,6 +25,7 @@
 		3FB9844459BE08CEB285CE6D /* Pods-FLAnGuage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.release.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.release.xcconfig"; sourceTree = "<group>"; };
 		658F2E0E54FF95D08DD53928 /* Pods-FLAnGuage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.debug.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.debug.xcconfig"; sourceTree = "<group>"; };
 		FD6F2B472999BE7300CA1003 /* LanguageMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageMenuController.swift; sourceTree = "<group>"; };
+		FD9B66122A25D4F000D334F7 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
 		FDE4BA9529946CED0068C216 /* FLAnGuage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnGuage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDE4BA9829946CED0068C216 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDE4BA9A29946CED0068C216 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				FDE4BAAF2994DE860068C216 /* LanguageManager.swift */,
+				FD9B66122A25D4F000D334F7 /* InputSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				FDE4BA9929946CED0068C216 /* AppDelegate.swift in Sources */,
 				FD6F2B482999BE7300CA1003 /* LanguageMenuController.swift in Sources */,
 				FDE4BAAB29946FF80068C216 /* FlagView.swift in Sources */,
+				FD9B66132A25D4F000D334F7 /* InputSource.swift in Sources */,
 				FDE4BAB22994E56F0068C216 /* String+Extension.swift in Sources */,
 				FDE4BAB02994DE860068C216 /* LanguageManager.swift in Sources */,
 			);
@@ -372,11 +376,12 @@
 				CODE_SIGN_ENTITLEMENTS = FLAnGuage/FLAnGuage.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B6N47R8A8L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -402,11 +407,12 @@
 				CODE_SIGN_ENTITLEMENTS = FLAnGuage/FLAnGuage.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = B6N47R8A8L;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
