@@ -74,7 +74,7 @@ extension SettingsViewController: NSTableViewDataSource {
         ) as? NSTableCellView else { return nil }
 
         if (tableColumn?.identifier)!.rawValue == "InputSource" {
-            cell.textField?.stringValue = inputSource.name
+            cell.textField?.stringValue = inputSource.localizedName
         } else if (tableColumn?.identifier)!.rawValue == "Title" {
             cell.textField?.stringValue = inputSource.statusBarName
         }

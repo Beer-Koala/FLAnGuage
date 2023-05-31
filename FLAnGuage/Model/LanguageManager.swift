@@ -12,6 +12,7 @@ struct LanguageManager {
     static let shared = LanguageManager()
 
     static let changeLanguageNotificationName = NSNotification.Name(rawValue: "SelectedKeyboardInputSourceChanged")
+    let filterKeyboardIS = [kTISPropertyInputSourceCategory: kTISCategoryKeyboardInputSource] as CFDictionary
 
     private init() {
 
@@ -34,7 +35,7 @@ struct LanguageManager {
     }
 
     var availableLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, false).takeRetainedValue() as? [TISInputSource] ?? [])
+        return (TISCreateInputSourceList(filterKeyboardIS, false).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
@@ -44,7 +45,7 @@ struct LanguageManager {
     }
 
     var allLanguages: [InputSource] {
-        return (TISCreateInputSourceList(nil, true).takeRetainedValue() as? [TISInputSource] ?? [])
+        return (TISCreateInputSourceList(filterKeyboardIS, true).takeRetainedValue() as? [TISInputSource] ?? [])
             .map {
                 $0.inputSource()
             }
@@ -55,12 +56,12 @@ struct LanguageManager {
     }
 
     func change(title: String, for inputSource: InputSource) {
-        UserDefaultStorage.inputSourceTitles[inputSource.language] = title
+        UserDefaultStorage.inputSourceTitles[inputSource.id] = title.trimmingCharacters(in: .whitespacesAndNewlines)
         NotificationCenter.default.post(Notification(name: LanguageManager.changeLanguageNotificationName))
     }
 
     func clearTitle(for inputSource: InputSource) {
-        UserDefaultStorage.inputSourceTitles.removeValue(forKey: inputSource.language)
+        UserDefaultStorage.inputSourceTitles.removeValue(forKey: inputSource.id)
         NotificationCenter.default.post(Notification(name: LanguageManager.changeLanguageNotificationName))
     }
 }

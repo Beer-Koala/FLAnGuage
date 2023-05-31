@@ -17,13 +17,20 @@ struct InputSource {
         return String.unsafeBitCast(from: inputSourceName)
     }
 
-    var name: String {
+    var localizedName: String {
         let inputSourceID = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName)
         return String.unsafeBitCast(from: inputSourceID)
     }
 
     var language: String {
         let inputSourceLanguage = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceLanguages)
+        return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
+    }
+
+    // The possible values are specified by property value constants
+    //  kTISCategoryKeyboardInputSource, kTISCategoryPaletteInputSource, kTISCategoryInkInputSource
+    var category: String {
+        let inputSourceLanguage = TISGetInputSourceProperty(inputSource, kTISPropertyInputSourceCategory)
         return String.unsafeBitCastArray(from: inputSourceLanguage).first ?? ""
     }
 
@@ -37,7 +44,7 @@ struct InputSource {
 
     var flagName: String? {
 
-        if let storedTitle = UserDefaultStorage.inputSourceTitles[self.language] {
+        if let storedTitle = UserDefaultStorage.inputSourceTitles[self.id] {
             return storedTitle
         }
 
@@ -87,7 +94,11 @@ struct InputSource {
     }
 
     var menuName: String {
-        return  "\(self.flagName ?? "") \(self.name)"//
+        let statusBarName = self.statusBarName
+        if statusBarName.count == 1 {
+            return "\(self.flagName ?? "") \(self.localizedName)"
+        }
+        return statusBarName
     }
 
 }
