@@ -36,6 +36,11 @@ struct InputSource {
 //    }
 
     var flagName: String? {
+
+        if let storedTitle = UserDefaultStorage.inputSourceTitles[self.language] {
+            return storedTitle
+        }
+
         switch self.language {
         case "uk": return "🇺🇦"
         case "fr": return "🇫🇷"

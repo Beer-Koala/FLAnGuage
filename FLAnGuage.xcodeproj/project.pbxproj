@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		E06550D32DCFF09EEBFB8CB8 /* Pods_FLAnGuage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */; };
+		FD0F38962A27854600A4AD81 /* UserDefaultStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0F38952A27854600A4AD81 /* UserDefaultStorage.swift */; };
+		FD0F38982A27865300A4AD81 /* F.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD0F38972A27865300A4AD81 /* F.swift */; };
 		FD6F2B482999BE7300CA1003 /* InputSourceMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6F2B472999BE7300CA1003 /* InputSourceMenu.swift */; };
 		FD9B66132A25D4F000D334F7 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD9B66122A25D4F000D334F7 /* InputSource.swift */; };
 		FDE4BA9929946CED0068C216 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDE4BA9829946CED0068C216 /* AppDelegate.swift */; };
@@ -23,6 +25,8 @@
 		235B70BBD64CBFA15076740A /* Pods_FLAnGuage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FLAnGuage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3FB9844459BE08CEB285CE6D /* Pods-FLAnGuage.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.release.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.release.xcconfig"; sourceTree = "<group>"; };
 		658F2E0E54FF95D08DD53928 /* Pods-FLAnGuage.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FLAnGuage.debug.xcconfig"; path = "Target Support Files/Pods-FLAnGuage/Pods-FLAnGuage.debug.xcconfig"; sourceTree = "<group>"; };
+		FD0F38952A27854600A4AD81 /* UserDefaultStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultStorage.swift; sourceTree = "<group>"; };
+		FD0F38972A27865300A4AD81 /* F.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = F.swift; sourceTree = "<group>"; };
 		FD6F2B472999BE7300CA1003 /* InputSourceMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSourceMenu.swift; sourceTree = "<group>"; };
 		FD9B66122A25D4F000D334F7 /* InputSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputSource.swift; sourceTree = "<group>"; };
 		FDE4BA9529946CED0068C216 /* FLAnGuage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLAnGuage.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -105,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				FDE4BA9829946CED0068C216 /* AppDelegate.swift */,
+				FD0F38972A27865300A4AD81 /* F.swift */,
 				FDE4BAAE2994DE720068C216 /* Model */,
 				FD9B66152A25E04900D334F7 /* View */,
 				FD9B66142A25E03500D334F7 /* Extension */,
@@ -120,6 +125,7 @@
 			children = (
 				FDE4BAAF2994DE860068C216 /* LanguageManager.swift */,
 				FD9B66122A25D4F000D334F7 /* InputSource.swift */,
+				FD0F38952A27854600A4AD81 /* UserDefaultStorage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -243,7 +249,9 @@
 				FDE4BA9E29946CED0068C216 /* FLAnGuage.xcdatamodeld in Sources */,
 				FDE4BA9B29946CED0068C216 /* SettingsViewController.swift in Sources */,
 				FDE4BA9929946CED0068C216 /* AppDelegate.swift in Sources */,
+				FD0F38982A27865300A4AD81 /* F.swift in Sources */,
 				FD6F2B482999BE7300CA1003 /* InputSourceMenu.swift in Sources */,
+				FD0F38962A27854600A4AD81 /* UserDefaultStorage.swift in Sources */,
 				FD9B66132A25D4F000D334F7 /* InputSource.swift in Sources */,
 				FDE4BAB22994E56F0068C216 /* String+Extension.swift in Sources */,
 				FDE4BAB02994DE860068C216 /* LanguageManager.swift in Sources */,

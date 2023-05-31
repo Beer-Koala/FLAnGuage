@@ -9,23 +9,48 @@ import Cocoa
 
 class SettingsViewController: NSViewController {
 
-    let inputSources: [InputSource] = LanguageManager.shared.availableLanguages
+    var inputSources: [InputSource] = []
 
-    @IBOutlet weak var inputSourceLanguages: NSScrollView?
+    @IBOutlet weak var inputSourceLanguages: NSTableView?
 
     @IBAction func clickDefaultValueButton(_ sender: NSButton) {
-        // here need to set default value of input source title
+        if let row = self.inputSourceLanguages?.row(for: sender) {
+            let inputSource = inputSources[row]
+            LanguageManager.shared.clearTitle(for: inputSource)
+
+            if let tableView = self.inputSourceLanguages,
+               let column = tableView.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier("Title")),
+               let columnIndex = tableView.tableColumns.firstIndex(of: column),
+               let cellView = tableView.view(
+                   atColumn: columnIndex,
+                   row: row,
+                   makeIfNecessary: false
+               ) as? NSTableCellView {
+                cellView.textField?.stringValue = inputSource.statusBarName
+            }
+        }
     }
+
     @IBAction func titleChangedAction(_ sender: NSTextField) {
-        // here need to save new value of input source title
+        if let row = self.inputSourceLanguages?.row(for: sender) {
+            let inputSource = inputSources[row]
+            LanguageManager.shared.change(title: sender.stringValue, for: inputSource)
+        }
+    }
+
+    override func viewWillAppear() {
+        self.inputSources = LanguageManager.shared.availableLanguages
+        self.inputSourceLanguages?.reloadData()
     }
 }
 
 extension SettingsViewController: NSTableViewDelegate {
 
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        if let cellView = tableView.view(atColumn: 1, row: row, makeIfNecessary: false) as? NSTableCellView {
-            // change the text of the text field as you wish
+
+        if let column = tableView.tableColumn(withIdentifier: NSUserInterfaceItemIdentifier("Title")),
+           let columnIndex = tableView.tableColumns.firstIndex(of: column),
+           let cellView = tableView.view(atColumn: columnIndex, row: row, makeIfNecessary: false) as? NSTableCellView {
             cellView.textField?.becomeFirstResponder()
         }
 
