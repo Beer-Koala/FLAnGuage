@@ -9,23 +9,39 @@ import Cocoa
 
 class SettingsViewController: NSViewController {
 
+    let inputSources: [InputSource] = LanguageManager.shared.availableLanguages
+
     @IBOutlet weak var inputSourceLanguages: NSScrollView?
 
+    @IBAction func clickDefaultValueButton(_ sender: NSButton) {
+        // here need to set default value of input source title
+    }
+    @IBAction func titleChangedAction(_ sender: NSTextField) {
+        // here need to save new value of input source title
+    }
 }
 
 extension SettingsViewController: NSTableViewDelegate {
 
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        if let cellView = tableView.view(atColumn: 1, row: row, makeIfNecessary: false) as? NSTableCellView {
+            // change the text of the text field as you wish
+            cellView.textField?.becomeFirstResponder()
+        }
+
+        return true
+    }
 }
 
 extension SettingsViewController: NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
-        LanguageManager.shared.allLanguages.count
+        self.inputSources.count
     }
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
-        let inputSource = LanguageManager.shared.allLanguages[row]
+        let inputSource = self.inputSources[row]
 
         guard let cell = tableView.makeView(
             withIdentifier: tableColumn!.identifier,
