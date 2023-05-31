@@ -53,4 +53,14 @@ struct LanguageManager {
     func set(_ inputSource: InputSource) {
         TISSelectInputSource(inputSource.inputSource)
     }
+
+    func change(title: String, for inputSource: InputSource) {
+        UserDefaultStorage.inputSourceTitles[inputSource.language] = title
+        NotificationCenter.default.post(Notification(name: LanguageManager.changeLanguageNotificationName))
+    }
+
+    func clearTitle(for inputSource: InputSource) {
+        UserDefaultStorage.inputSourceTitles.removeValue(forKey: inputSource.language)
+        NotificationCenter.default.post(Notification(name: LanguageManager.changeLanguageNotificationName))
+    }
 }

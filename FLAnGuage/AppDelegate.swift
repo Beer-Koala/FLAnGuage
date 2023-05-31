@@ -14,10 +14,10 @@ import ServiceManagement
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var languageMenu: LanguageMenuController?
+    var inputSourceMenu: InputSourceMenu?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        self.languageMenu = LanguageMenuController()
+        self.inputSourceMenu = InputSourceMenu()
 
         do {
             try SMAppService.mainApp.register()
