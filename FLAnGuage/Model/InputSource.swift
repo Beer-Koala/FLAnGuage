@@ -121,9 +121,46 @@ private extension String {
     }
 }
 
+private extension Array where Element == InputSource {
+    func appendEmoji() -> [InputSource] {
+        if let emojiKeyboard = TISInputSource.emojiKeyboard() {
+            return self + [emojiKeyboard]
+        }
+        return self
+    }
+}
+
 extension TISInputSource {
+
+    private static let filterKeyboardIS = [
+        kTISPropertyInputSourceCategory: kTISCategoryKeyboardInputSource
+    ] as CFDictionary
 
     func inputSource() -> InputSource {
         return InputSource(inputSource: self)
+    }
+
+    static func allKeyboardInputSources(_ allInstalled: Bool) -> [InputSource] {
+
+        let allKeyboards = (
+            TISCreateInputSourceList(filterKeyboardIS, allInstalled).takeRetainedValue() as? [TISInputSource] ?? []
+        )
+            .map {
+                $0.inputSource()
+            }
+            .appendEmoji()
+
+        return allKeyboards
+            .filter {
+                $0.id != "com.apple.PressAndHold"
+            }
+    }
+
+    static func emojiKeyboard() -> InputSource? {
+        let filterEmoji = [kTISPropertyInputSourceID: "com.apple.CharacterPaletteIM"] as CFDictionary
+
+        return (TISCreateInputSourceList(filterEmoji, false).takeRetainedValue() as? [TISInputSource] ?? [])
+            .first?
+            .inputSource()
     }
 }

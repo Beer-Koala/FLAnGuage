@@ -12,7 +12,6 @@ struct LanguageManager {
     static let shared = LanguageManager()
 
     static let changeLanguageNotificationName = NSNotification.Name(rawValue: "SelectedKeyboardInputSourceChanged")
-    let filterKeyboardIS = [kTISPropertyInputSourceCategory: kTISCategoryKeyboardInputSource] as CFDictionary
 
     private init() {
 
@@ -35,20 +34,11 @@ struct LanguageManager {
     }
 
     var availableLanguages: [InputSource] {
-        return (TISCreateInputSourceList(filterKeyboardIS, false).takeRetainedValue() as? [TISInputSource] ?? [])
-            .map {
-                $0.inputSource()
-            }
-            .filter {
-                $0.id != "com.apple.PressAndHold"
-            }
+        return TISInputSource.allKeyboardInputSources(false)
     }
 
     var allLanguages: [InputSource] {
-        return (TISCreateInputSourceList(filterKeyboardIS, true).takeRetainedValue() as? [TISInputSource] ?? [])
-            .map {
-                $0.inputSource()
-            }
+        return TISInputSource.allKeyboardInputSources(true)
     }
 
     func set(_ inputSource: InputSource) {
