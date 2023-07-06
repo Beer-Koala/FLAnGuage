@@ -8,11 +8,14 @@
 import Cocoa
 import AppKit
 
-class InputSourceMenu: NSObject, NSMenuDelegate {
+class InputSourceMenu: NSObject {
 
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
     let menu = NSMenu()
     let currentLanguageIdentifier = NSLocale.preferredLanguages.first!
+
+    var statusBarItem: NSStatusItem!
+        var statusBarMenu: NSMenu!
 
     private lazy var appSettingsWindowController: NSWindowController? = {
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -23,10 +26,9 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
         super.init()
 
         self.updateCurrentInputSource()
-        self.menu.delegate = self
-        statusItem.menu = self.menu
-        statusItem.button?.action = #selector(InputSourceMenu.statusBarButtonClicked(sender:))
-        self.updateMenuItemTitle()
+        statusItem.button?.target = self
+        statusItem.button?.action = #selector(self.statusBarButtonClicked(sender:))
+        statusItem.button?.sendAction(on: [.leftMouseUp, .rightMouseUp])
 
         NotificationCenter.default.addObserver(
             self,
@@ -48,7 +50,7 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
         }
     }
 
-    func updateMenuItemTitle() {
+    func updateMenuItems() {
         self.menu.removeAllItems()
         let availableLanguages = LanguageManager.shared.availableLanguages
         for inputSource in availableLanguages {
@@ -94,8 +96,10 @@ class InputSourceMenu: NSObject, NSMenuDelegate {
     }
 
     @objc func statusBarButtonClicked(sender: NSStatusItem) {
-        self.updateMenuItemTitle()
+        self.updateMenuItems()
+        statusItem.menu = self.menu
         self.statusItem.button?.performClick(nil)
+        statusItem.menu = nil
     }
 
     @objc func menuItemSelected(sender: NSMenuItem) {
